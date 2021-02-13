@@ -1,0 +1,21 @@
+.row {
+  margin-bottom: -1px;
+  display: flex;
+}
+
+.col {
+    height: 50px;
+    width: 50px;
+    border: 1px solid;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.resetBoard {
+    background-color: #fff;
+    padding: 10px;
+    border: 1px solid;
+    margin-top: 10px;
+}

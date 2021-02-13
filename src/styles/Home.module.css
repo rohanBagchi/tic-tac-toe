@@ -1,0 +1,36 @@
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.playerSelectForm {
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+}
+
+.playerSelectForm label {
+  display: block;
+  margin-top: 10px;
+}
+
+.playerSelectForm input {
+  display: block;
+  padding: 5px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.playerSelectForm button {
+  display: block;
+  padding: 5px;
+  width: 100%;
+  background-color: rgb(83, 41, 237);
+  margin-top: 10px;
+  border: 0;
+  color: #fff;
+}
