@@ -13,6 +13,11 @@
     align-items: center;
 }
 
+.col.disabled {
+  background-color: azure;
+  cursor: not-allowed;
+}
+
 .resetBoard {
     background-color: #fff;
     padding: 10px;

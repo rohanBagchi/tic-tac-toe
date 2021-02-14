@@ -31,8 +31,8 @@ export default function Home() {
           player2,
 
           gameBoard,
-          firstPlayer: "player1",
-          currentPlayer: "player1"
+          firstPlayer: player1,
+          currentPlayer: player1
         })
 
         router.push(`/games/${newGame.key}`)
