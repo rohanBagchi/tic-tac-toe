@@ -24,34 +24,34 @@ export default function Game({ id }) {
         }
     }, [id])
 
+    const isAllColFilled = list => list.filter(col => col == '').length === 0
+
+    const isGameOver = () => {
+        const rowsWithEmptyCells = game.gameBoard.filter(row => {
+            return !isAllColFilled(row)
+        });
+
+        return rowsWithEmptyCells.length === 0
+    }
+
     const checkWinner = () => {
-        debugger
         const isAllItemsInArraySame = list => {
-            const prev = {};
+            const prev = {
+                [list[0]]: 1
+            };
 
-            return list.some(col => {
-                if (Object.keys(prev).length === 0) {
-                    prev[col] = 1
-                }
-
-                if (!prev[col]) {
-                    return false;
-                }
-
-                return true
-            });
+            return list.filter(col => !!prev[col]).length === list.length
         }
 
-        const isAllColFilled = list => list.filter(col => col === '').length === 0
 
         const checkHorizontal = () => {
             for(let i = 0; i < game.gameBoard.length; i++) {
-                const row = game.gameBoard[i]
+                const list = game.gameBoard[i]
 
-                if (!isAllColFilled(row)) return false
-
-                return isAllItemsInArraySame(row);
+                if(isAllColFilled(list) && isAllItemsInArraySame(list)) return true
             }
+
+            return false
         };
         const checkVertical = () => {
             const verticals = [];
@@ -67,13 +67,15 @@ export default function Game({ id }) {
                 })
             }
 
+            console.log({ verticals })
+
             for(let i = 0; i < verticals.length; i++) {
                 const list = verticals[i]
 
-                if (!isAllColFilled(list)) return false
-
-                return isAllItemsInArraySame(list);
+                if(isAllColFilled(list) && isAllItemsInArraySame(list)) return true
             }
+
+            return false;
         };
         const checkDiagonal = () => {
             const leftDiagonal = []
@@ -92,16 +94,34 @@ export default function Game({ id }) {
 
             const diagonals = [leftDiagonal, rightDiagonal]
 
+            console.log({ diagonals })
+
             for(let i = 0; i < diagonals.length; i++) {
                 const list = diagonals[i]
 
-                if (!isAllColFilled(list)) return false
-
-                return isAllItemsInArraySame(list);
+                if(isAllColFilled(list) && isAllItemsInArraySame(list)) return true
             }
+
+            return false;
         };
 
-        return checkHorizontal() || checkVertical() || checkDiagonal();
+        const horizontal = checkHorizontal()
+        const vertical = checkVertical()
+        const diagonal = checkDiagonal()
+
+        if (horizontal) {
+            console.log("horizontal!")
+        }
+
+        if (vertical) {
+            console.log("vertical!")
+        }
+
+        if (diagonal) {
+            console.log("diagonal!")
+        }
+
+        return horizontal || vertical || diagonal
     }
 
     if (!game) {
@@ -149,15 +169,27 @@ export default function Game({ id }) {
         })
     }
 
+    const gameOver = isGameOver();
+
     return (
         <div className={styles.container}>
-            <h3>
-                {game.currentPlayer}'s chance
-            </h3>
+            {!gameOver && !isWinnerAvailable && (
+                <h3>
+                    {game.currentPlayer}'s chance
+                </h3>
+            )}
 
-            <h4>
-                {isWinnerAvailable && `Winner has been found! ${game.currentPlayer === game.player1 ? game.player2 : game.player1} is the winner`}
-            </h4>
+            {isGameOver() && (
+                <h4>
+                    Game over! No winners! Please clear board and retry
+                </h4>
+            )}
+
+            {isWinnerAvailable && (
+                <h4>
+                    {`Winner has been found! ${game.currentPlayer === game.player1 ? game.player2 : game.player1} is the winner`}
+                </h4>
+            )}
 
             {renderBoard()}
 
